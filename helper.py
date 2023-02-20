@@ -73,24 +73,6 @@ def get_new_images(search_term, crawler):
     #os.close(null_fds[1])
 
 '''
-Function used to concurrently crawl through different search querys
-Stores each search query in ./images/$QUERY/
-'''
-def get_new_images_batch(search_terms):
-    threads = []
-
-    for search_term in search_terms:
-        # For some reason the set_storage method isn't working so we have to create
-        # a new icrawler object each time we want to change storage locations
-        crawler = GoogleImageCrawler(storage = {'root_dir': 'images/' + search_term + '/'})
-        thread = threading.Thread(target=get_new_images, args=(search_term, crawler))
-        thread.start()
-        threads += [thread]
-
-    for thread in threads:
-        thread.join()
-
-'''
 Given a search term, crawl through google for images and
 prompt the user until he chooses an image, returns the image's path
 
@@ -164,5 +146,5 @@ and return it's path
 '''
 def create_movie_dir(movie_name):
     dir = 'images/' + movie_name + '/'
-    os.system('mkdir -p ' + dir)
+    os.system('mkdir -p \'' + dir + '\'')
     return dir
